@@ -1,5 +1,6 @@
 import { maps, GameMode } from "@/data/maps";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   const modes: GameMode[] = ['Convergence', 'Domination', 'Convoy'];
@@ -9,7 +10,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto">
         <header className="mb-12 text-center">
           <h1 className="text-4xl font-bold mb-4 text-amber-500">Marvel Rivals Maps</h1>
-          <p className="text-zinc-400">Tactical Bird's Eye View & Strategy Planner</p>
+          <p className="text-zinc-400">Tactical Bird&apos;s Eye View & Strategy Planner</p>
         </header>
 
         <div className="space-y-12">
@@ -31,10 +32,21 @@ export default function Home() {
                         {map.region !== 'Unknown' ? map.region : 'Unknown Region'}
                       </p>
                       
-                      {/* Placeholder for future map image/interactive view */}
-                      <div className="mt-4 w-full h-40 bg-zinc-900/50 rounded flex items-center justify-center border border-dashed border-zinc-600">
-                        <span className="text-zinc-500 text-sm">Map View Coming Soon</span>
-                      </div>
+                      {/* Map Preview or Placeholder */}
+                      {map.previewImage ? (
+                        <div className="mt-4 w-full h-40 relative rounded overflow-hidden border border-zinc-700 group-hover:border-zinc-500 transition-colors">
+                          <Image
+                            src={map.previewImage}
+                            alt={`${map.name} preview`}
+                            fill
+                            className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                          />
+                        </div>
+                      ) : (
+                        <div className="mt-4 w-full h-40 bg-zinc-900/50 rounded flex items-center justify-center border border-dashed border-zinc-600">
+                          <span className="text-zinc-500 text-sm">Map View Coming Soon</span>
+                        </div>
+                      )}
                       
                       <div className="mt-4 flex gap-2">
                         <Link 

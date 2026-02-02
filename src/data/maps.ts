@@ -6,6 +6,7 @@ export interface MapInfo {
   region: string;
   mode: GameMode;
   image?: string;
+  previewImage?: string;
 }
 
 export const maps: MapInfo[] = [
@@ -15,7 +16,8 @@ export const maps: MapInfo[] = [
     name: 'Central Park', 
     region: 'Empire Of Eternal Night', 
     mode: 'Convergence',
-    image: '/maps/Convergence/centralpark.webp'
+    image: '/maps/Convergence/centralpark.webp',
+    previewImage: '/maps/previews/centralparkpreview.jpg'
   },
   { 
     id: 'hall-of-djalia', 
@@ -51,7 +53,8 @@ export const maps: MapInfo[] = [
     name: 'Hell’s Heaven', 
     region: 'Hydra Charteris Base', 
     mode: 'Domination',
-    image: '/maps/Domination/hydradom.jpg'
+    image: '/maps/Domination/hydradom.jpg',
+    previewImage: '/maps/previews/hellshavenpreview.jpg'
   },
   { 
     id: 'birnin-tchalla', 
@@ -99,7 +102,8 @@ export const maps: MapInfo[] = [
     name: 'Yggdrasill Path', 
     region: 'Yggsgard', 
     mode: 'Convoy',
-    image: '/maps/Convoy/Yggdrasilconvoy.webp'
+    image: '/maps/Convoy/Yggdrasilconvoy.webp',
+    previewImage: '/maps/previews/yggdrasilpathpreview.jpg'
   },
   { 
     id: 'museum-of-contemplation', 

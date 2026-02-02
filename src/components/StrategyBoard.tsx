@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, DragEvent, MouseEvent } from "react";
+import { useState, useRef, useEffect, useCallback, DragEvent, MouseEvent } from "react";
 import { MapInfo } from "@/data/maps";
 import { heroes, HeroRole } from "@/data/heroes";
 import Image from "next/image";
@@ -45,28 +45,7 @@ export default function StrategyBoard({ mapData }: StrategyBoardProps) {
   const filteredHeroes = heroes.filter(h => h.role === selectedRole);
 
   // --- Drawing Logic ---
-  useEffect(() => {
-    // Resize canvas to match container
-    const handleResize = () => {
-      if (containerRef.current && canvasRef.current) {
-        canvasRef.current.width = containerRef.current.clientWidth;
-        canvasRef.current.height = containerRef.current.clientHeight;
-        redrawCanvas();
-      }
-    };
-    
-    window.addEventListener('resize', handleResize);
-    // Initial size
-    handleResize();
-    
-    return () => window.removeEventListener('resize', handleResize);
-  }, [containerRef.current]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    redrawCanvas();
-  }, [history, currentPoints]); // Redraw when history or current drawing changes
-
-  const redrawCanvas = () => {
+  const redrawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -123,7 +102,28 @@ export default function StrategyBoard({ mapData }: StrategyBoardProps) {
         width: selectedTool === 'Eraser' ? 20 : 3,
       });
     }
-  };
+  }, [history, currentPoints, selectedTool]);
+
+  useEffect(() => {
+    // Resize canvas to match container
+    const handleResize = () => {
+      if (containerRef.current && canvasRef.current) {
+        canvasRef.current.width = containerRef.current.clientWidth;
+        canvasRef.current.height = containerRef.current.clientHeight;
+        redrawCanvas();
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    // Initial size
+    handleResize();
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, [redrawCanvas]); 
+
+  useEffect(() => {
+    redrawCanvas();
+  }, [redrawCanvas]); // Redraw when history or current drawing changes
 
   const startDrawing = (e: MouseEvent<HTMLCanvasElement>) => {
     if (!selectedTool) return;
