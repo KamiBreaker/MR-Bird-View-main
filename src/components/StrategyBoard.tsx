@@ -211,6 +211,10 @@ export default function StrategyBoard({ mapData }: StrategyBoardProps) {
     }
   };
 
+  const removeHero = (instanceId: string) => {
+    setPlacedHeroes((prev) => prev.filter(h => h.instanceId !== instanceId));
+  };
+
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = e.dataTransfer.types.includes("instanceid") ? "move" : "copy"; 
@@ -398,9 +402,13 @@ export default function StrategyBoard({ mapData }: StrategyBoardProps) {
                     left: placed.x - 20, // Center the icon (width/2)
                     top: placed.y - 20,  // Center the icon (height/2)
                   }}
-                  title={heroInfo.name}
+                  title={`${heroInfo.name} (Right-click to remove)`}
                   draggable="true" // Only draggable if canvas doesn't block events
                   onDragStart={(e) => handlePlacedHeroDragStart(e, placed.instanceId)}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    removeHero(placed.instanceId);
+                  }}
                 >
                   <Image
                     src={heroInfo.image}
